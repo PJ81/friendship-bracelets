@@ -1,63 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace bracelets {
+
     class Knot {
 
-        public KnotType type {
-            get; set;
-        }
-
         private Point pos;
-        private SolidBrush black, clr;
-        private Pen penB = new Pen(Color.Black, 1);
-        private Pen penW = new Pen(Color.White, 1);
-        private Rectangle rect;
+        private readonly SolidBrush black;
+        private readonly Pen penB = new Pen(Color.Black, 1);
+        private readonly Pen penW = new Pen(Color.White, 1);
 
-        public Rectangle Rect {
-            get { return rect; }
-        }
-
-        public SolidBrush threadClr {
-            get { return clr; }
-        }
-
-        public void setColor(Color c) {
-            clr = new SolidBrush(c);
-        }
-
-        public void setPos(int x, int y) {
-            pos.X = x;
-            pos.Y = y;
-
-            rect = new Rectangle(pos.X - 14, pos.Y - 14, 28, 28);
-        }
-
-        public void draw(Graphics gr) {
-            gr.FillEllipse(black, rect);
-            gr.FillEllipse(clr, pos.X - 12, pos.Y - 12, 24, 24);
-            drawArrow(gr);
-        }
-
-        public Knot(KnotType t) {
-            type = t;
-            pos = new Point();
-            black = new SolidBrush(Color.Black);
-            clr = new SolidBrush(Color.Red);
-        }
-
-        public void nextKnot() {
-            switch(type) {
-                case KnotType.F: type = KnotType.FB; break;
-                case KnotType.FB: type = KnotType.B; break;
-                case KnotType.B: type = KnotType.BF; break; 
-                case KnotType.BF: type = KnotType.F; break;
-            }
-        }
+        public KnotType Type { get; set; }
 
         private Color getForeColor(Color c) {
             float br2 = 0.3f * c.R + 0.59f * c.G + 0.11f * c.B;
@@ -65,12 +18,49 @@ namespace bracelets {
             return Color.White;
         }
 
+        public Rectangle Rect { get; private set; }
+
+        public SolidBrush threadClr { get; private set; }
+
+        public void setColor(Color c) {
+            threadClr = new SolidBrush(c);
+        }
+
+        public void setPos(int x, int y) {
+            pos.X = x;
+            pos.Y = y;
+
+            Rect = new Rectangle(pos.X - 14, pos.Y - 14, 28, 28);
+        }
+
+        public void draw(Graphics gr) {
+            gr.FillEllipse(black, Rect);
+            gr.FillEllipse(threadClr, pos.X - 12, pos.Y - 12, 24, 24);
+            drawArrow(gr);
+        }
+
+        public Knot(KnotType t) {
+            Type = t;
+            pos = new Point();
+            black = new SolidBrush(Color.Black);
+            threadClr = new SolidBrush(Color.Red);
+        }
+
+        public void NextKnot() {
+            switch(Type) {
+                case KnotType.F: Type = KnotType.FB; break;
+                case KnotType.FB: Type = KnotType.B; break;
+                case KnotType.B: Type = KnotType.BF; break; 
+                case KnotType.BF: Type = KnotType.F; break;
+            }
+        }
+
         private void drawArrow(Graphics gr) {
             float scale = .7f, tail = .7f, r = 11f;
 
-            Pen pen = getForeColor(clr.Color) == Color.Black ? penB : penW;
+            Pen pen = getForeColor(threadClr.Color) == Color.Black ? penB : penW;
 
-            if (type == KnotType.F) {
+            if (Type == KnotType.F) {
                 float px = (float)(-r * Math.Sin(Math.PI / 4) * scale + pos.X);
                 float py = (float)(-r * Math.Cos(Math.PI / 4) * scale + pos.Y);
                 float qx = (float)(r * Math.Sin(Math.PI / 4) * scale + pos.X);
@@ -79,7 +69,7 @@ namespace bracelets {
                 gr.DrawLine(pen, qx, qy, qx, qy - r * tail);
                 gr.DrawLine(pen, qx, qy, qx - r * tail, qy);
             }
-            else if (type == KnotType.B) {
+            else if (Type == KnotType.B) {
                 float px = (float)(r * Math.Sin(Math.PI / 4) * scale + pos.X);
                 float py = (float)(-r * Math.Cos(Math.PI / 4) * scale + pos.Y);
                 float qx = (float)(-r * Math.Sin(Math.PI / 4) * scale + pos.X);
@@ -88,7 +78,7 @@ namespace bracelets {
                 gr.DrawLine(pen, qx, qy, qx, qy - r * tail);
                 gr.DrawLine(pen, qx, qy, qx + r * tail, qy);
             }
-            else if (type == KnotType.FB) {
+            else if (Type == KnotType.FB) {
                 float px = (float)(-r * Math.Sin(Math.PI / 4) * scale * 0.5 + pos.X);
                 float py = (float)(-r * Math.Cos(Math.PI / 4) * scale + pos.Y);
                 float qx = (float)(r * Math.Sin(Math.PI / 4) * scale * 0.5 + pos.X);
@@ -100,7 +90,7 @@ namespace bracelets {
                 gr.DrawLine(pen, rx, ry+1, rx, ry - r * tail * 0.6f+1);
                 gr.DrawLine(pen, rx, ry+1, rx + r * tail * 0.6f, ry+1);
             }
-            else if (type == KnotType.BF) {
+            else if (Type == KnotType.BF) {
                 float px = (float)(r * Math.Sin(Math.PI / 4) * scale * 0.5 + pos.X);
                 float py = (float)(-r * Math.Cos(Math.PI / 4) * scale + pos.Y);
                 float qx = (float)(-r * Math.Sin(Math.PI / 4) * scale * 0.5 + pos.X);

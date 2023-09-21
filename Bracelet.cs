@@ -15,13 +15,13 @@ namespace bracelets {
         private List<Point> points = new List<Point>();
         private List<Knot[]> knots = new List<Knot[]>();
         private Point[] poly = new Point[4];
-        private Point[] tmp = new Point[4];
+        private readonly Point[] tmp = new Point[4];
 
         public bool searchKnot(Point pt) {
             foreach (Knot[] ks in knots) {
                 foreach (Knot knot in ks) {
                     if (knot.Rect.Contains(pt)) {
-                        knot.nextKnot();
+                        knot.NextKnot();
                         return true;
                     }
                 }
@@ -41,7 +41,7 @@ namespace bracelets {
 
             foreach (Thread t in threads) {
                 points.CopyTo(s, pts, 0, p);
-                t.draw(gr, pts);
+                t.Draw(gr, pts);
                 s += p;
             }
 
@@ -76,7 +76,6 @@ namespace bracelets {
             }
         }
 
-
         public Bracelet() {
             poly[0] = new Point(0, -POLY);
             poly[1] = new Point(POLY, 0);
@@ -97,12 +96,6 @@ namespace bracelets {
 
             gr.FillPolygon(sb, tmp);
             gr.DrawPolygon(blackPen, tmp);
-        }
-
-        public Color getForeColor(Color c) {
-            float br2 = 0.3f * c.R + 0.59f * c.G + 0.11f * c.B;
-            if (br2 > 127.0) return Color.Black;
-            return Color.White;
         }
 
         public void createThreads(string colors) {
@@ -190,30 +183,21 @@ namespace bracelets {
                     if (k_idx < 0 || k_idx >= k.Length) {
                         if (k_idx < 0) {
                             pX += lastRow ? STEP_X / 2 : STEP_X;
-                            thread.dir = Direction.LEFT;
+                            thread.Dir = Direction.LEFT;
                             k_idx++;
                         } else {
                             pX -= lastRow ? STEP_X / 2 : STEP_X;
-                            thread.dir = Direction.RIGHT;
+                            thread.Dir = Direction.RIGHT;
                             k_idx -= (threads.Count % 2 == 0 ? 0 : 1);
-
-                            /*if (threads.Count % 2 == 0) {
-                                pX -= lastRow ? STEP_X / 2 : STEP_X;
-                                thread.dir = Direction.RIGHT;
-                            } else {
-                                k_idx--;
-                                pX -= lastRow ? STEP_X / 2 : STEP_X;
-                                thread.dir = Direction.RIGHT;
-                            }*/
                         }
                     } else {
                         knot = k[k_idx];
                         knot.setPos(pX, lastRow ? pY - 16 : pY - 33);
 
-                        if (thread.dir == Direction.LEFT) {
-                            if (knot.type == KnotType.FB || knot.type == KnotType.BF) {
+                        if (thread.Dir == Direction.LEFT) {
+                            if (knot.Type == KnotType.FB || knot.Type == KnotType.BF) {
                                 pX -= lastRow ? STEP_X / 2 : STEP_X;
-                                thread.dir = Direction.RIGHT;
+                                thread.Dir = Direction.RIGHT;
                                 if (row % 2 == 0) k_idx--;
                             } else {
                                 pX += lastRow ? STEP_X / 2 : STEP_X;
@@ -221,18 +205,15 @@ namespace bracelets {
                             }
 
                         } else {
-                            if (knot.type == KnotType.FB || knot.type == KnotType.BF) {
+                            if (knot.Type == KnotType.FB || knot.Type == KnotType.BF) {
                                 pX += lastRow ? STEP_X / 2 : STEP_X;
-                                thread.dir = Direction.LEFT;
+                                thread.Dir = Direction.LEFT;
                                 if (row % 2 != 0) k_idx++;
                             } else {
                                 pX -= lastRow ? STEP_X / 2 : STEP_X;
                                 if (row % 2 == 0) k_idx--;
                             }
                         }
-
-                        /*if(k_idx > -1 && k_idx <= k.Length)
-                            knot.setPos(pX, pY);*/
                     }
 
                     points.Add(new Point(pX, pY));
@@ -246,7 +227,7 @@ namespace bracelets {
         public void createKnotsColors() {
             Color[] lst = new Color[threads.Count];
             int i = 0;
-            foreach (Thread t in threads) lst[i++] = t.color;
+            foreach (Thread t in threads) lst[i++] = t.Color;
 
             int idx, row = 0;
             foreach (Knot[] ks in knots) {
@@ -254,7 +235,7 @@ namespace bracelets {
                 foreach (Knot knot in ks) {
                     if (idx + 1 > threads.Count) continue;
 
-                    switch (knot.type) {
+                    switch (knot.Type) {
                         case KnotType.BF:
                             knot.setColor(lst[idx + 1]);
                             break;

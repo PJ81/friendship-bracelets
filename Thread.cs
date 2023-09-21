@@ -5,23 +5,20 @@ using System.Drawing;
 namespace bracelets {
 
     class Thread {
+        private readonly Pen pen;
+        private readonly Pen clrPen;
 
-        private Pen pen, clrPen;
+        public Color Color { get; set; }
 
-        public Color color {
-            get; set;
-        }
-        public Direction dir {
-            get; set;
-        }
+        public Direction Dir { get; set; }
 
         public Thread(Color c, Direction d) {
-            color = c; dir = d;
+            Color = c; Dir = d;
             pen = new Pen(Color.Black, 11);
             clrPen = new Pen(c, 7);
         }
 
-        public void draw(Graphics gr, Point[] pts) {
+        public void Draw(Graphics gr, Point[] pts) {
             gr.DrawLines(pen, pts);
             gr.DrawLines(clrPen, pts);
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -18,6 +17,12 @@ namespace bracelets {
 
         private Bracelet bracelet;
 
+        private Color getForeColor(Color c) {
+            float br2 = 0.3f * c.R + 0.59f * c.G + 0.11f * c.B;
+            if (br2 > 127.0) return Color.Black;
+            return Color.White;
+        }
+
         public Form1() {
             InitializeComponent();
 
@@ -31,7 +36,7 @@ namespace bracelets {
                 ListViewItem li = new ListViewItem();
                 li.Tag = bracelet.clrLst.Count;
                 li.BackColor = c;
-                li.ForeColor = bracelet.getForeColor(c);
+                li.ForeColor = getForeColor(c);
                 li.Text = ((Char)(65+clrList.Items.Count)) + " #" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2") + " ";
                 clrList.Items.Add(li);
 
@@ -114,7 +119,7 @@ namespace bracelets {
                     ListViewItem li = new ListViewItem();
                     li.Tag = bracelet.clrLst.Count;
                     li.BackColor = o;
-                    li.ForeColor = bracelet.getForeColor(o);
+                    li.ForeColor = getForeColor(o);
                     li.Text = ((Char)(65 + clrList.Items.Count)) + " #" + o.R.ToString("X2") + o.G.ToString("X2") + o.B.ToString("X2") + " ";
                     clrList.Items.Add(li);
 
@@ -145,7 +150,7 @@ namespace bracelets {
 
                 ListViewItem li = e.Item;
                 li.BackColor = c;
-                li.ForeColor = bracelet.getForeColor(c);
+                li.ForeColor = getForeColor(c);
                 li.Text = ((Char)(65 + clrList.Items.Count)) + " #" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2") + " ";
                 bracelet.clrLst[(int)li.Tag] = c;
 
