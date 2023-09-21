@@ -12,12 +12,6 @@ namespace bracelets {
 
         public KnotType Type { get; set; }
 
-        private Color getForeColor(Color c) {
-            float br2 = 0.3f * c.R + 0.59f * c.G + 0.11f * c.B;
-            if (br2 > 127.0) return Color.Black;
-            return Color.White;
-        }
-
         public Rectangle Rect { get; private set; }
 
         public SolidBrush threadClr { get; private set; }
@@ -58,7 +52,7 @@ namespace bracelets {
         private void drawArrow(Graphics gr) {
             float scale = .7f, tail = .7f, r = 11f;
 
-            Pen pen = getForeColor(threadClr.Color) == Color.Black ? penB : penW;
+            Pen pen = Program.getForeColor(threadClr.Color) == Color.Black ? penB : penW;
 
             if (Type == KnotType.F) {
                 float px = (float)(-r * Math.Sin(Math.PI / 4) * scale + pos.X);
