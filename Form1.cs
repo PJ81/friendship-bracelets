@@ -97,6 +97,8 @@ namespace bracelets {
 
         private void btnLoad_Click(object sender, EventArgs e) {
             if (openDlg.ShowDialog() == DialogResult.OK) {
+                Text = "Bracelets - [" + openDlg.FileName + "]";
+
                 FileStream strm = new FileStream(openDlg.FileName, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(strm);
 

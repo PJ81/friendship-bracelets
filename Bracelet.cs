@@ -193,14 +193,18 @@ namespace bracelets {
                             thread.dir = Direction.LEFT;
                             k_idx++;
                         } else {
-                            if (threads.Count % 2 == 0) {
+                            pX -= lastRow ? STEP_X / 2 : STEP_X;
+                            thread.dir = Direction.RIGHT;
+                            k_idx -= (threads.Count % 2 == 0 ? 0 : 1);
+
+                            /*if (threads.Count % 2 == 0) {
                                 pX -= lastRow ? STEP_X / 2 : STEP_X;
                                 thread.dir = Direction.RIGHT;
                             } else {
                                 k_idx--;
                                 pX -= lastRow ? STEP_X / 2 : STEP_X;
                                 thread.dir = Direction.RIGHT;
-                            }
+                            }*/
                         }
                     } else {
                         knot = k[k_idx];
