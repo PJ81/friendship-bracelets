@@ -242,6 +242,10 @@ namespace bracelets {
             // 
             this.saveDlg.Filter = "Bracelets|*.bra";
             // 
+            // openDlg
+            // 
+            this.openDlg.Filter = "Bracelet|*bra";
+            // 
             // btnWork
             // 
             this.btnWork.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
