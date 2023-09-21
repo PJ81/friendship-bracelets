@@ -122,7 +122,7 @@ namespace bracelets {
 
             string[] k = knotsTxt.Replace("\r\n", "").Replace(" ", "").Split(',');
             int i = threads.Count / 2,
-                z = i - 1,
+                z = threads.Count % 2 == 0 ? i - 1 : i,
                 q = 0,
                 r = 0,
                 c;
@@ -193,8 +193,14 @@ namespace bracelets {
                             thread.dir = Direction.LEFT;
                             k_idx++;
                         } else {
-                            pX -= lastRow ? STEP_X / 2 : STEP_X;
-                            thread.dir = Direction.RIGHT;
+                            if (threads.Count % 2 == 0) {
+                                pX -= lastRow ? STEP_X / 2 : STEP_X;
+                                thread.dir = Direction.RIGHT;
+                            } else {
+                                k_idx--;
+                                pX -= lastRow ? STEP_X / 2 : STEP_X;
+                                thread.dir = Direction.RIGHT;
+                            }
                         }
                     } else {
                         knot = k[k_idx];

@@ -46,6 +46,7 @@ namespace bracelets {
             this.openDlg = new System.Windows.Forms.OpenFileDialog();
             this.btnWork = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnAddThread = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -83,7 +84,7 @@ namespace bracelets {
             this.lstColors.Font = new System.Drawing.Font("Consolas", 12F);
             this.lstColors.Location = new System.Drawing.Point(144, 22);
             this.lstColors.Name = "lstColors";
-            this.lstColors.Size = new System.Drawing.Size(729, 26);
+            this.lstColors.Size = new System.Drawing.Size(694, 26);
             this.lstColors.TabIndex = 2;
             // 
             // label1
@@ -258,11 +259,25 @@ namespace bracelets {
             this.toolTip.SetToolTip(this.btnWork, "Work");
             this.btnWork.UseVisualStyleBackColor = true;
             // 
+            // btnAddThread
+            // 
+            this.btnAddThread.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnAddThread.Font = new System.Drawing.Font("Wingdings 2", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(2)));
+            this.btnAddThread.Location = new System.Drawing.Point(841, 22);
+            this.btnAddThread.Name = "btnAddThread";
+            this.btnAddThread.Size = new System.Drawing.Size(32, 26);
+            this.btnAddThread.TabIndex = 17;
+            this.btnAddThread.Text = "Ì";
+            this.toolTip.SetToolTip(this.btnAddThread, "Null");
+            this.btnAddThread.UseVisualStyleBackColor = true;
+            this.btnAddThread.Click += new System.EventHandler(this.btnAddThread_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(876, 502);
+            this.Controls.Add(this.btnAddThread);
             this.Controls.Add(this.btnWork);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);
@@ -311,6 +326,7 @@ namespace bracelets {
         private System.Windows.Forms.OpenFileDialog openDlg;
         private System.Windows.Forms.Button btnWork;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Button btnAddThread;
     }
 }
 

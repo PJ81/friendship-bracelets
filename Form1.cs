@@ -149,5 +149,9 @@ namespace bracelets {
 
             }
         }
+
+        private void btnAddThread_Click(object sender, EventArgs e) {
+            //
+        }
     }
 }
