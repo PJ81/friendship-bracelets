@@ -10,12 +10,17 @@ namespace bracelets {
 
         private Pen blackPen;
 
+        public int Width {get; private set;}
+        public int Height {get; private set; }
+
         public List<Color> clrLst = new List<Color>();
         private List<Thread> threads = new List<Thread>();
         private List<Point> points = new List<Point>();
         private List<Knot[]> knots = new List<Knot[]>();
+        private List<ColorHandle> clrHandles = new List<ColorHandle>();
         private Point[] poly = new Point[4];
         private readonly Point[] tmp = new Point[4];
+
 
         public bool searchKnot(Point pt) {
             foreach (Knot[] ks in knots) {
@@ -29,12 +34,22 @@ namespace bracelets {
             return false;
         }
 
+        public Color addColor(Color c) {
+            clrLst.Add(c);
+            return c;
+        }
+
+        public void addThread() {
+            //
+        }
+
         public void create(Graphics gr, string knotsTxt, string colors) {
 
             createThreads(colors);
             createKnots(knotsTxt);
             createKnotsColors();
             createPoints();
+
 
             int s = 0, p = points.Count / threads.Count;
             Point[] pts = new Point[p];
@@ -45,6 +60,10 @@ namespace bracelets {
                 s += p;
             }
 
+            foreach (ColorHandle e in clrHandles) {
+                e.draw(gr);
+            }
+
             foreach (Knot[] knot in knots) {
                 foreach (Knot k in knot) {
                     k.draw(gr);
@@ -52,7 +71,7 @@ namespace bracelets {
             }
 
             bool m;
-            int x, y = 10, row;
+            int x = 0, y = 10, row;
             int w = 10 + (STEP_X + STEP_X) * (knots[0].Length + 1),
                 h = 1 + knots.Count / 2 * POLY2 + POLY,
                 c = 1;
@@ -74,6 +93,8 @@ namespace bracelets {
                     y += POLY;
                 }
             }
+
+            Width = x + 42;
         }
 
         public Bracelet() {
@@ -141,27 +162,44 @@ namespace bracelets {
 
         }
 
+        public int searchColorHandles(Point pt) {
+            foreach (ColorHandle ch in clrHandles) {
+                if (ch.Rect.Contains(pt)) {
+                    return ch.Index;
+                }
+            }
+            return -1;
+        }
+
+        public void setThreadColor(int idx, Color c) {
+            threads[idx].Color = c;
+        }
+
         public void createPoints() {
             points.Clear();
+            clrHandles.Clear();
 
-            int row, pX, pY, k_idx, startX = 24;
+            int row, pX = 0, pY = 0, k_idx, startX = 24;
             Thread thread;
             Knot knot;
             bool lastRow;
 
             for (int i = 0; i < threads.Count; i++) {
                 pX = startX;
-                pY = 0;
+                pY = 15;
                 row = 0;
 
                 startX += i % 2 == 0 ? 34 : 32;
 
                 thread = threads[i];
 
+                Point pt = new Point(pX, pY);
+                points.Add(pt);
+                clrHandles.Add(new ColorHandle(pt, thread.Color, i));
+
+                pY += (int)(STEP_Y * .7);
                 points.Add(new Point(pX, pY));
 
-                pY += STEP_Y / 2;
-                points.Add(new Point(pX, pY));
 
                 pY += 1 + STEP_Y / 2;
                 if (i % 2 == 0) {
@@ -222,6 +260,8 @@ namespace bracelets {
 
                 points.Add(new Point(pX, pY + 21));
             }
+
+            Height = pY + 42;
         }
 
         public void createKnotsColors() {
@@ -257,6 +297,5 @@ namespace bracelets {
                 row++;
             }
         }
-
     }
 }

@@ -68,12 +68,18 @@ namespace bracelets {
 
             bracelet.create(gr, lstKnot.Text, lstColors.Text);
 
+            bmp = new Bitmap(bracelet.Width, bracelet.Height);
+            gr = Graphics.FromImage(bmp);
+            bracelet.create(gr, lstKnot.Text, lstColors.Text);
+
             picBox.Image = bmp;
         }
 
         private void picBox_MouseDown(object sender, MouseEventArgs e) {
             Point pt = new Point(e.X, e.Y);
             if (bracelet.searchKnot(pt)) btnCreate.PerformClick();
+            int r = bracelet.searchColorHandles(pt);
+            if (r > -1) changeColor(r);
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
@@ -136,6 +142,14 @@ namespace bracelets {
             }
         }
 
+        private void changeColor(int idx) {
+            if (clrDlg.ShowDialog() == DialogResult.OK) {
+                Color c = clrDlg.Color;
+                //bracelet.clrLst[idx] = c;
+                bracelet.setThreadColor(idx, c);
+            }
+        }
+
         private void clrList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e) {
             if (!e.IsSelected) return;
 
@@ -151,7 +165,23 @@ namespace bracelets {
             }
         }
 
+        private void panel1_SizeChanged(object sender, EventArgs e) {
+            picBox.Size = new Size(panel1.Width, panel1.Height);
+        }
+
         private void btnAddThread_Click(object sender, EventArgs e) {
+            //
+        }
+
+        private void btnSubThread_Click(object sender, EventArgs e) {
+            //
+        }
+
+        private void btnAddRow_Click(object sender, EventArgs e) {
+            //
+        }
+
+        private void btnSubRow_Click(object sender, EventArgs e) {
             //
         }
     }
