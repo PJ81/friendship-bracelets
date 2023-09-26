@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-
+using System.IO;
 
 namespace bracelets {
 
@@ -12,7 +12,6 @@ namespace bracelets {
             get { return clr; }
             set { clr = value; clrPen = new Pen(value, 7); }
         }
-
 
         public Direction Dir { get; set; }
 
@@ -28,6 +27,11 @@ namespace bracelets {
 
         public Thread Clone() {
             return new Thread(Color, Dir);
+        }
+
+        public void save(StreamWriter writer) {
+            writer.WriteLine(clr.ToArgb());
+            writer.WriteLine(Dir);
         }
     }
 }

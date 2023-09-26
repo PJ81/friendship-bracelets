@@ -21,10 +21,10 @@ namespace bracelets {
             InitializeComponent();
 
             bracelet = new Bracelet();
-            btnCreate_Click(null, null);
+            create();
         }
 
-        private void btnCreate_Click(object sender, EventArgs e) {
+        private void create() {
             var t = bracelet.create();
             picBox.Image = t.Item1;
             picBox2.Image = t.Item2;
@@ -33,11 +33,16 @@ namespace bracelets {
 
         private void picBox_MouseDown(object sender, MouseEventArgs e) {
             Point pt = new Point(e.X, e.Y);
-            if (bracelet.searchKnot(pt)) btnCreate.PerformClick();
+            
+            if (bracelet.searchKnot(pt)) {
+                create();
+                return;
+            }
+            
             int r = bracelet.searchColorHandles(pt);
             if (r > -1) {
                 changeColor(r);
-                btnCreate.PerformClick();
+                create();
             }
         }
 
@@ -47,12 +52,7 @@ namespace bracelets {
                 StreamWriter writer = new StreamWriter(strm);
                 writer.BaseStream.Seek(0, SeekOrigin.End);
 
-                writer.WriteLine(bracelet.clrLst.Count);
-                foreach (Color c in bracelet.clrLst)
-                    writer.WriteLine(c.ToArgb());
-
-                //writer.WriteLine(lstColors.Text);
-                //writer.WriteLine(lstKnot.Text);
+                bracelet.save(writer);
 
                 writer.Flush();
                 writer.Close();
@@ -66,38 +66,11 @@ namespace bracelets {
                 FileStream strm = new FileStream(openDlg.FileName, FileMode.Open, FileAccess.Read);
                 StreamReader reader = new StreamReader(strm);
 
-                int c = Convert.ToInt32(reader.ReadLine());
-
-                bracelet.clrLst.Clear();
-                //clrList.Items.Clear();
-
-                for (int i = 0; i < c; i++) {
-                    int l = Convert.ToInt32(reader.ReadLine());
-                    Color o = Color.FromArgb(l);
-
-                    ListViewItem li = new ListViewItem();
-                    li.Tag = bracelet.clrLst.Count;
-                    li.BackColor = o;
-                    li.ForeColor = Program.getForeColor(o);
-                    //li.Text = ((Char)(65 + clrList.Items.Count)) + " #" + o.R.ToString("X2") + o.G.ToString("X2") + o.B.ToString("X2") + " ";
-                    //clrList.Items.Add(li);
-
-                    bracelet.clrLst.Add(o);
-
-                }
-
-                //lstColors.Text = reader.ReadLine();
-
-                string str = "";
-                while(!reader.EndOfStream) {
-                    str += reader.ReadLine() + "\r\n";
-                }
-
-                //lstKnot.Text = str;
+                bracelet.load(reader);
 
                 reader.Close();
 
-                btnCreate.PerformClick();
+                create();
             }
         }
 
@@ -111,23 +84,23 @@ namespace bracelets {
         private void btnAddThread_Click(object sender, EventArgs e) {
             bracelet.addThread();
             bracelet.addRow(true);
-            btnCreate.PerformClick();
+            create();
         }
 
         private void btnSubThread_Click(object sender, EventArgs e) {
             bracelet.subThread();
             bracelet.addRow(true);
-            btnCreate.PerformClick();
+            create();
         }
 
         private void btnAddRow_Click(object sender, EventArgs e) {
             bracelet.addRow();
-            btnCreate.PerformClick();
+            create();
         }
 
         private void btnSubRow_Click(object sender, EventArgs e) {
             bracelet.subRow();
-            btnCreate.PerformClick();
+            create();
         }
     }
 }

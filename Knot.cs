@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 
 namespace bracelets {
 
@@ -96,6 +97,10 @@ namespace bracelets {
                 gr.DrawLine(pen, rx, ry+1, rx, ry - r * tail * 0.6f+1);
                 gr.DrawLine(pen, rx, ry+1, rx - r * tail * 0.6f, ry+1);
             }
+        }
+
+        public void save(StreamWriter writer) {
+            writer.WriteLine(Type);
         }
     }
 }

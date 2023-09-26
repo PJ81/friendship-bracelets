@@ -30,7 +30,6 @@ namespace bracelets {
             this.saveDlg = new System.Windows.Forms.SaveFileDialog();
             this.openDlg = new System.Windows.Forms.OpenFileDialog();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnCreate = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnLoad = new System.Windows.Forms.Button();
             this.btnAddThread = new System.Windows.Forms.Button();
@@ -67,20 +66,9 @@ namespace bracelets {
             // 
             this.openDlg.Filter = "Bracelet|*bra";
             // 
-            // btnCreate
-            // 
-            this.btnCreate.Location = new System.Drawing.Point(294, 5);
-            this.btnCreate.Name = "btnCreate";
-            this.btnCreate.Size = new System.Drawing.Size(69, 26);
-            this.btnCreate.TabIndex = 13;
-            this.btnCreate.Text = "Create";
-            this.toolTip.SetToolTip(this.btnCreate, "Create");
-            this.btnCreate.UseVisualStyleBackColor = true;
-            this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
-            // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(438, 5);
+            this.btnSave.Location = new System.Drawing.Point(366, 5);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(69, 26);
             this.btnSave.TabIndex = 14;
@@ -91,7 +79,7 @@ namespace bracelets {
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(366, 5);
+            this.btnLoad.Location = new System.Drawing.Point(294, 5);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(69, 26);
             this.btnLoad.TabIndex = 15;
@@ -166,7 +154,6 @@ namespace bracelets {
             this.panel2.Controls.Add(this.btnAddRow);
             this.panel2.Controls.Add(this.btnLoad);
             this.panel2.Controls.Add(this.btnAddThread);
-            this.panel2.Controls.Add(this.btnCreate);
             this.panel2.Controls.Add(this.btnSave);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(0, 0);
@@ -223,7 +210,6 @@ namespace bracelets {
         private System.Windows.Forms.OpenFileDialog openDlg;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnCreate;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.Button btnAddThread;

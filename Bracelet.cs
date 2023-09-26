@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 
 namespace bracelets {
 
@@ -9,10 +11,10 @@ namespace bracelets {
 
         private Pen blackPen;
 
-        public int Width {get; private set;}
-        public int Height {get; private set; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
 
-        public List<Color> clrLst = new List<Color>();
+        //public List<Color> clrLst = new List<Color>();
         private List<Thread> threads = new List<Thread>();
         private List<Point> points = new List<Point>();
         private List<Knot[]> knots = new List<Knot[]>();
@@ -65,8 +67,8 @@ namespace bracelets {
             bool m;
             int h = (1 + knots[0].Length) * POLY2 + (threads.Count % 2 == 0 ? 0 : POLY),
                 c = (1 + knots.Count) * POLY;
-            int x = 10, y = h-POLY2, row, pieces = 4;
-            
+            int x = 10, y = h - POLY2, row, pieces = 4;
+
 
             Bitmap bmpb = new Bitmap(c * pieces, h);
             Graphics grb = Graphics.FromImage(bmpb);
@@ -120,7 +122,7 @@ namespace bracelets {
 
         public void subThread() {
             if (threads.Count < 3) return;
-            
+
             threads.RemoveAt(threads.Count - 1);
         }
 
@@ -136,11 +138,11 @@ namespace bracelets {
             int nn = cnt / 2, n;
 
             for (int r = 0; r < cn; r++) {
-                
+
                 n = r % 2 == 0 ? nn : cnt % 2 == 0 ? nn - 1 : nn;
 
                 Knot[] knot = new Knot[n];
-                
+
                 for (int c = 0; c < n; c++) {
                     knot[c] = new Knot(KnotType.F);
                 }
@@ -186,7 +188,8 @@ namespace bracelets {
                 pY += 1 + STEP_Y / 2;
                 if (i % 2 == 0) {
                     pX += 1 + STEP_X / 2;
-                } else {
+                }
+                else {
                     pX -= 1 + STEP_X / 2;
                 }
 
@@ -208,12 +211,14 @@ namespace bracelets {
                             pX += lastRow ? STEP_X / 2 : STEP_X;
                             thread.Dir = Direction.LEFT;
                             k_idx++;
-                        } else {
+                        }
+                        else {
                             pX -= lastRow ? STEP_X / 2 : STEP_X;
                             thread.Dir = Direction.RIGHT;
                             k_idx -= (tc % 2 == 0 ? 0 : 1);
                         }
-                    } else {
+                    }
+                    else {
                         knot = k[k_idx];
                         knot.setPos(pX, lastRow ? pY - 16 : pY - 33);
 
@@ -222,17 +227,20 @@ namespace bracelets {
                                 pX -= lastRow ? STEP_X / 2 : STEP_X;
                                 thread.Dir = Direction.RIGHT;
                                 if (row % 2 == 0) k_idx--;
-                            } else {
+                            }
+                            else {
                                 pX += lastRow ? STEP_X / 2 : STEP_X;
                                 if (row % 2 != 0) k_idx++;
                             }
 
-                        } else {
+                        }
+                        else {
                             if (knot.Type == KnotType.FB || knot.Type == KnotType.BF) {
                                 pX += lastRow ? STEP_X / 2 : STEP_X;
                                 thread.Dir = Direction.LEFT;
                                 if (row % 2 != 0) k_idx++;
-                            } else {
+                            }
+                            else {
                                 pX -= lastRow ? STEP_X / 2 : STEP_X;
                                 if (row % 2 == 0) k_idx--;
                             }
@@ -297,6 +305,49 @@ namespace bracelets {
             gr.FillPolygon(sb, tmp);
             gr.DrawPolygon(blackPen, tmp);
         }
+
+        public void save(StreamWriter writer) {
+
+            writer.WriteLine(threads.Count);
+            foreach (Thread t in threads)
+                t.save(writer);
+
+
+            writer.WriteLine(knots.Count);
+            writer.WriteLine(knots[0].Length);
+            writer.WriteLine(knots[1].Length);
+            foreach (Knot[] ks in knots)
+                foreach (Knot k in ks)
+                    k.save(writer);
+        }
+
+        public void load(StreamReader reader) {
+            int c, clr, x, y, m;
+
+            threads.Clear();
+            c = Convert.ToInt32(reader.ReadLine());
+            for (int z = 0; z < c; z++) {
+                clr = Convert.ToInt32(reader.ReadLine());
+                threads.Add(new Thread(Color.FromArgb(clr), (Direction)Enum.Parse(typeof(Direction), reader.ReadLine())));
+            }
+
+            c = Convert.ToInt32(reader.ReadLine());
+            x = Convert.ToInt32(reader.ReadLine());
+            y = Convert.ToInt32(reader.ReadLine());
+
+            knots.Clear();
+            for (int z = 0; z < c; z++) {
+                m = z % 2 == 0 ? x : y;
+                Knot[] ks = new Knot[m];
+                for(int a = 0; a< m; a++) {
+                    ks[a] = new Knot((KnotType)Enum.Parse(typeof(KnotType), reader.ReadLine()));
+                }
+
+                knots.Add(ks);
+            }
+
+        }
+
     }
 }
 
