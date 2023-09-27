@@ -21,6 +21,10 @@ namespace bracelets {
             threadClr = new SolidBrush(c);
         }
 
+        public Point getPos() {
+            return pos;
+        }
+
         public void setPos(int x, int y) {
             pos.X = x;
             pos.Y = y;

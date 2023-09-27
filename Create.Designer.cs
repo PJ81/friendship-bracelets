@@ -1,6 +1,6 @@
 ﻿
 namespace bracelets {
-    partial class Form1 {
+    partial class Create {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -40,6 +40,7 @@ namespace bracelets {
             this.panel2 = new System.Windows.Forms.Panel();
             this.picBox2 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnMake = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -149,6 +150,7 @@ namespace bracelets {
             // panel2
             // 
             this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.btnMake);
             this.panel2.Controls.Add(this.btnSubRow);
             this.panel2.Controls.Add(this.btnSubThread);
             this.panel2.Controls.Add(this.btnAddRow);
@@ -181,10 +183,22 @@ namespace bracelets {
             this.panel3.Size = new System.Drawing.Size(968, 95);
             this.panel3.TabIndex = 23;
             // 
+            // btnMake
+            // 
+            this.btnMake.Location = new System.Drawing.Point(438, 4);
+            this.btnMake.Name = "btnMake";
+            this.btnMake.Size = new System.Drawing.Size(69, 26);
+            this.btnMake.TabIndex = 19;
+            this.btnMake.Text = "Make";
+            this.toolTip.SetToolTip(this.btnMake, "Save to file");
+            this.btnMake.UseVisualStyleBackColor = true;
+            this.btnMake.Click += new System.EventHandler(this.btnMake_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(968, 670);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panel3);
@@ -219,6 +233,7 @@ namespace bracelets {
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox picBox2;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btnMake;
     }
 }
 

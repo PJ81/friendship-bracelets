@@ -10,11 +10,11 @@ namespace bracelets {
         private const int STEP_Y = 33, STEP_X = 33, POLY = 6, POLY2 = 2 * POLY;
 
         private Pen blackPen;
+        private SolidBrush gray;
 
         public int Width { get; private set; }
         public int Height { get; private set; }
 
-        //public List<Color> clrLst = new List<Color>();
         private List<Thread> threads = new List<Thread>();
         private List<Point> points = new List<Point>();
         private List<Knot[]> knots = new List<Knot[]>();
@@ -29,6 +29,7 @@ namespace bracelets {
             poly[3] = new Point(-POLY, 0);
 
             blackPen = new Pen(Color.Black, 1);
+            gray = new SolidBrush(Color.DarkGray);
 
             for (int t = 0; t < 4; t++)
                 addThread();
@@ -41,9 +42,9 @@ namespace bracelets {
             createKnotsColors();
             createPoints();
 
-            Bitmap bmp = new Bitmap(Width, Height);
+            Bitmap bmp = new Bitmap(Width + 60, Height);
             Graphics gr = Graphics.FromImage(bmp);
-            //gr.Clear(Color.White);
+            gr.Clear(Color.White);
 
             int s = 0, p = points.Count / threads.Count;
             Point[] pts = new Point[p];
@@ -64,15 +65,22 @@ namespace bracelets {
                 }
             }
 
+            Font fnt = new Font("Consolas", 12);
+            Point pt;
+            int kp = 0;
+            foreach (Knot[] knot in knots) {
+                pt = knot[0].getPos();
+                gr.DrawString((++kp).ToString(), fnt, gray, bmp.Width - 26, pt.Y-10);
+            }
+
             bool m;
             int h = (1 + knots[0].Length) * POLY2 + (threads.Count % 2 == 0 ? 0 : POLY),
                 c = (1 + knots.Count) * POLY;
             int x = 10, y = h - POLY2, row, pieces = 4;
 
-
             Bitmap bmpb = new Bitmap(c * pieces, h);
             Graphics grb = Graphics.FromImage(bmpb);
-            //grb.Clear(Color.White);
+            grb.Clear(Color.White);
 
             for (int z = 0; z < pieces; z++) {
                 row = 0;
@@ -114,10 +122,6 @@ namespace bracelets {
 
         public void setThreadColor(int idx, Color c) {
             threads[idx].Color = c;
-        }
-
-        public void addThread() {
-            threads.Add(new Thread(Color.Gray, threads.Count % 2 == 0 ? Direction.LEFT : Direction.RIGHT));
         }
 
         public void subThread() {
@@ -293,19 +297,6 @@ namespace bracelets {
             }
         }
 
-        private void drawLosangle(Graphics gr, int x, int y, SolidBrush sb) {
-
-            poly.CopyTo(tmp, 0);
-
-            for (int z = 0; z < 4; z++) {
-                tmp[z].X += x;
-                tmp[z].Y += y;
-            }
-
-            gr.FillPolygon(sb, tmp);
-            gr.DrawPolygon(blackPen, tmp);
-        }
-
         public void save(StreamWriter writer) {
 
             writer.WriteLine(threads.Count);
@@ -348,53 +339,19 @@ namespace bracelets {
 
         }
 
+        public void addThread() => threads.Add(new Thread(Color.Gray, threads.Count % 2 == 0 ? Direction.LEFT : Direction.RIGHT));
+
+        private void drawLosangle(Graphics gr, int x, int y, SolidBrush sb) {
+
+            poly.CopyTo(tmp, 0);
+
+            for (int z = 0; z < 4; z++) {
+                tmp[z].X += x;
+                tmp[z].Y += y;
+            }
+
+            gr.FillPolygon(sb, tmp);
+            gr.DrawPolygon(blackPen, tmp);
+        }
     }
 }
-
-/*public Color addColor(Color c) {
-            clrLst.Add(c);
-            return c;
-        }
-
-        public void createThreads(string colors) {
-            threads.Clear();
-            bool d = true;
-
-            foreach (Char c in colors.ToLower()) {
-                Color clr = clrLst[c - 97];
-                Thread t = new Thread(clr, d ? Direction.LEFT : Direction.RIGHT);
-                threads.Add(t);
-                d = !d;
-            }
-        }
-
-        public void createKnots(string knotsTxt) {
-            knots.Clear();
-
-            string[] k = knotsTxt.Replace("\r\n", "").Replace(" ", "").Split(',');
-            int i = threads.Count / 2,
-                z = threads.Count % 2 == 0 ? i - 1 : i,
-                q = 0,
-                r = 0,
-                c;
-
-            while (q < k.Length) {
-                c = r % 2 == 0 ? i : z;
-                Knot[] u = new Knot[c];
-
-                for (int n = 0; n < c; n++) {
-                    switch (k[q + n].ToLower()) {
-                        case "f": u[n] = new Knot(KnotType.F); break;
-                        case "fb": u[n] = new Knot(KnotType.FB); break;
-                        case "bf": u[n] = new Knot(KnotType.BF); break;
-                        case "b": u[n] = new Knot(KnotType.B); break;
-                    }
-                }
-
-                knots.Add(u);
-
-                q += c;
-                r++;
-            }
-
-        }*/
