@@ -104,7 +104,7 @@ namespace bracelets {
         }
 
         private void btnMake_Click(object sender, EventArgs e) {
-            Make mk = new Make();
+            Make mk = new Make((Bitmap)picBox.Image);
             mk.ShowDialog(this);
         }
     }
