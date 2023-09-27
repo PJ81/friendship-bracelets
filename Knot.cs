@@ -8,8 +8,8 @@ namespace bracelets {
 
         private Point pos;
         private readonly SolidBrush black;
-        private readonly Pen penB = new Pen(Color.Black, 1);
-        private readonly Pen penW = new Pen(Color.White, 1);
+        private readonly Pen penB = new Pen(Color.Black);
+        private readonly Pen penW = new Pen(Color.White);
 
         public KnotType Type { get; set; }
 
@@ -55,51 +55,32 @@ namespace bracelets {
         }
 
         private void drawArrow(Graphics gr) {
-            float scale = .7f, tail = .7f, r = 11f;
+            float sc = .7f, t = .7f, r = 11f;
+            PointF a = new PointF(), b = new PointF(), c = new PointF();
+            double cos = Math.Cos(Math.PI / 4), sin = Math.Sin(Math.PI / 4);
 
             Pen pen = Program.getForeColor(threadClr.Color) == Color.Black ? penB : penW;
 
-            if (Type == KnotType.F) {
-                float px = (float)(-r * Math.Sin(Math.PI / 4) * scale + pos.X);
-                float py = (float)(-r * Math.Cos(Math.PI / 4) * scale + pos.Y);
-                float qx = (float)(r * Math.Sin(Math.PI / 4) * scale + pos.X);
-                float qy = (float)(r * Math.Cos(Math.PI / 4) * scale + pos.Y);
-                gr.DrawLine(pen, px, py, qx, qy);
-                gr.DrawLine(pen, qx, qy, qx, qy - r * tail);
-                gr.DrawLine(pen, qx, qy, qx - r * tail, qy);
+            if (Type == KnotType.F || Type == KnotType.B) {
+                a.X = (float)((Type == KnotType.F ? -r : r) * sin * sc + pos.X);
+                a.Y = (float)(-r * cos * sc + pos.Y);
+                b.X = (float)((Type == KnotType.B ? -r : r) * sin * sc + pos.X);
+                b.Y = (float)(r * cos * sc + pos.Y);
+                gr.DrawLine(pen, a, b);
+                gr.DrawLine(pen, b.X, b.Y, b.X, b.Y - r * t);
+                gr.DrawLine(pen, b.X, b.Y, b.X + (Type == KnotType.F ? -r : r) * t, b.Y);
             }
-            else if (Type == KnotType.B) {
-                float px = (float)(r * Math.Sin(Math.PI / 4) * scale + pos.X);
-                float py = (float)(-r * Math.Cos(Math.PI / 4) * scale + pos.Y);
-                float qx = (float)(-r * Math.Sin(Math.PI / 4) * scale + pos.X);
-                float qy = (float)(r * Math.Cos(Math.PI / 4) * scale + pos.Y);
-                gr.DrawLine(pen, px, py, qx, qy);
-                gr.DrawLine(pen, qx, qy, qx, qy - r * tail);
-                gr.DrawLine(pen, qx, qy, qx + r * tail, qy);
-            }
-            else if (Type == KnotType.FB) {
-                float px = (float)(-r * Math.Sin(Math.PI / 4) * scale * 0.5 + pos.X);
-                float py = (float)(-r * Math.Cos(Math.PI / 4) * scale + pos.Y);
-                float qx = (float)(r * Math.Sin(Math.PI / 4) * scale * 0.5 + pos.X);
-                float qy = pos.Y;
-                float rx = px;
-                float ry =(float)( r * Math.Cos(Math.PI / 4) * scale + pos.Y);
-                gr.DrawLine(pen, px, py, qx, qy);
-                gr.DrawLine(pen, qx, qy, rx, ry);
-                gr.DrawLine(pen, rx, ry+1, rx, ry - r * tail * 0.6f+1);
-                gr.DrawLine(pen, rx, ry+1, rx + r * tail * 0.6f, ry+1);
-            }
-            else if (Type == KnotType.BF) {
-                float px = (float)(r * Math.Sin(Math.PI / 4) * scale * 0.5 + pos.X);
-                float py = (float)(-r * Math.Cos(Math.PI / 4) * scale + pos.Y);
-                float qx = (float)(-r * Math.Sin(Math.PI / 4) * scale * 0.5 + pos.X);
-                float qy = 0 + pos.Y;
-                float rx = px;
-                float ry = (float)(r * Math.Cos(Math.PI / 4) * scale + pos.Y);
-                gr.DrawLine(pen, px, py, qx, qy);
-                gr.DrawLine(pen, qx, qy, rx, ry);
-                gr.DrawLine(pen, rx, ry+1, rx, ry - r * tail * 0.6f+1);
-                gr.DrawLine(pen, rx, ry+1, rx - r * tail * 0.6f, ry+1);
+            else {
+                a.X = (float)((Type == KnotType.FB ? -r : r) * sin * sc * 0.5 + pos.X);
+                a.Y = (float)(-r * cos * sc + pos.Y);
+                b.X = (float)((Type == KnotType.BF ? -r : r) * sin * sc * 0.5 + pos.X);
+                b.Y = pos.Y;
+                c.X = a.X;
+                c.Y = (float)(r * cos * sc + pos.Y);
+                gr.DrawLine(pen, a, b);
+                gr.DrawLine(pen, b, c);
+                gr.DrawLine(pen, c.X, c.Y + 1, c.X, c.Y - r * t * 0.6f + 1);
+                gr.DrawLine(pen, c.X, c.Y + 1, c.X + (Type == KnotType.BF ? -r : r) * t * 0.6f, c.Y + 1);
             }
         }
 
