@@ -42,6 +42,8 @@ namespace bracelets {
             this.panel2 = new System.Windows.Forms.Panel();
             this.picBox2 = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.btnVertical = new System.Windows.Forms.Button();
+            this.btnHorizontal = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -153,7 +155,7 @@ namespace bracelets {
             // btnMake
             // 
             this.btnMake.Image = ((System.Drawing.Image)(resources.GetObject("btnMake.Image")));
-            this.btnMake.Location = new System.Drawing.Point(437, 5);
+            this.btnMake.Location = new System.Drawing.Point(510, 5);
             this.btnMake.Name = "btnMake";
             this.btnMake.Size = new System.Drawing.Size(69, 26);
             this.btnMake.TabIndex = 7;
@@ -176,6 +178,8 @@ namespace bracelets {
             // panel2
             // 
             this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.btnVertical);
+            this.panel2.Controls.Add(this.btnHorizontal);
             this.panel2.Controls.Add(this.btnMake);
             this.panel2.Controls.Add(this.btnSubRow);
             this.panel2.Controls.Add(this.btnSubThread);
@@ -208,6 +212,34 @@ namespace bracelets {
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(968, 95);
             this.panel3.TabIndex = 23;
+            // 
+            // btnVertical
+            // 
+            this.btnVertical.Enabled = false;
+            this.btnVertical.Image = ((System.Drawing.Image)(resources.GetObject("btnVertical.Image")));
+            this.btnVertical.Location = new System.Drawing.Point(895, 5);
+            this.btnVertical.Name = "btnVertical";
+            this.btnVertical.Size = new System.Drawing.Size(69, 26);
+            this.btnVertical.TabIndex = 11;
+            this.btnVertical.Text = "Vert";
+            this.btnVertical.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnVertical, "Save to file");
+            this.btnVertical.UseVisualStyleBackColor = true;
+            this.btnVertical.Visible = false;
+            this.btnVertical.Click += new System.EventHandler(this.btnVertical_Click);
+            // 
+            // btnHorizontal
+            // 
+            this.btnHorizontal.Image = ((System.Drawing.Image)(resources.GetObject("btnHorizontal.Image")));
+            this.btnHorizontal.Location = new System.Drawing.Point(437, 5);
+            this.btnHorizontal.Name = "btnHorizontal";
+            this.btnHorizontal.Size = new System.Drawing.Size(69, 26);
+            this.btnHorizontal.TabIndex = 10;
+            this.btnHorizontal.Text = "Horiz";
+            this.btnHorizontal.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnHorizontal, "Save to file");
+            this.btnHorizontal.UseVisualStyleBackColor = true;
+            this.btnHorizontal.Click += new System.EventHandler(this.btnHorizontal_Click);
             // 
             // Create
             // 
@@ -249,6 +281,8 @@ namespace bracelets {
         private System.Windows.Forms.PictureBox picBox2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btnMake;
+        private System.Windows.Forms.Button btnVertical;
+        private System.Windows.Forms.Button btnHorizontal;
     }
 }
 

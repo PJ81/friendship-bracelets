@@ -28,7 +28,7 @@ namespace bracelets {
             var t = bracelet.create();
             picBox.Image = t.Item1;
             picBox2.Image = t.Item2;
-            picBox2.Size = new Size(picBox2.Width, t.Item2.Height);
+            panel3.Size = new Size(picBox2.Width, t.Item2.Height + 10);
         }
 
         private void picBox_MouseDown(object sender, MouseEventArgs e) {
@@ -106,6 +106,16 @@ namespace bracelets {
         private void btnMake_Click(object sender, EventArgs e) {
             Make mk = new Make((Bitmap)picBox.Image);
             mk.ShowDialog(this);
+        }
+
+        private void btnHorizontal_Click(object sender, EventArgs e) {
+            bracelet.horizontal();
+            create();
+        }
+
+        private void btnVertical_Click(object sender, EventArgs e) {
+            bracelet.vertical();
+            create();
         }
     }
 }

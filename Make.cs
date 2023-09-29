@@ -26,7 +26,7 @@ namespace bracelets {
         private void showBitmap() {
             Bitmap t = new Bitmap(bmp.Width, STEP);
             using (Graphics grD = Graphics.FromImage(t)) {
-                grD.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, STEP), 0, yPos + 34, bmp.Width, STEP, GraphicsUnit.Pixel);
+                grD.DrawImage(bmp, new Rectangle(0, 0, bmp.Width, STEP), 0, yPos + 35, bmp.Width, STEP, GraphicsUnit.Pixel);
             }
             picBox.Image = t;
         }

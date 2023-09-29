@@ -45,12 +45,21 @@ namespace bracelets {
             threadClr = new SolidBrush(Color.Red);
         }
 
-        public void NextKnot() {
+        public void nextNode() {
             switch(Type) {
                 case KnotType.F: Type = KnotType.FB; break;
                 case KnotType.FB: Type = KnotType.B; break;
                 case KnotType.B: Type = KnotType.BF; break; 
                 case KnotType.BF: Type = KnotType.F; break;
+            }
+        }
+
+        public void mirror() {
+            switch (Type) {
+                case KnotType.F: Type = KnotType.B; break;
+                case KnotType.FB: Type = KnotType.BF; break;
+                case KnotType.B: Type = KnotType.F; break;
+                case KnotType.BF: Type = KnotType.FB; break;
             }
         }
 
@@ -86,6 +95,10 @@ namespace bracelets {
 
         public void save(StreamWriter writer) {
             writer.WriteLine(Type);
+        }
+
+        public Knot Clone() {
+            return new Knot(Type);
         }
     }
 }

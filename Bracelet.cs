@@ -10,6 +10,7 @@ namespace bracelets {
         private const int STEP_Y = 33, STEP_X = 33, POLY = 6, POLY2 = 2 * POLY;
 
         private Pen blackPen;
+        private Pen grayPen;
         private SolidBrush gray;
 
         public int Width { get; private set; }
@@ -28,7 +29,8 @@ namespace bracelets {
             poly[2] = new Point(0, POLY);
             poly[3] = new Point(-POLY, 0);
 
-            blackPen = new Pen(Color.Black, 1);
+            blackPen = new Pen(Color.Black);
+            grayPen = new Pen(Color.DarkGray);
             gray = new SolidBrush(Color.DarkGray);
 
             for (int t = 0; t < 4; t++)
@@ -45,6 +47,15 @@ namespace bracelets {
             Bitmap bmp = new Bitmap(Width + 60, Height);
             Graphics gr = Graphics.FromImage(bmp);
             gr.Clear(Color.White);
+
+            Font fnt = new Font("Consolas", 12);
+            Point pt;
+            int kp = 0;
+            foreach (Knot[] knot in knots) {
+                pt = knot[0].getPos();
+                gr.DrawString((++kp).ToString(), fnt, gray, bmp.Width - 26, pt.Y - 10);
+                gr.DrawLine(grayPen, bmp.Width - 30, pt.Y, 0, pt.Y);
+            }
 
             int s = 0, p = points.Count / threads.Count;
             Point[] pts = new Point[p];
@@ -63,14 +74,6 @@ namespace bracelets {
                 foreach (Knot k in knot) {
                     k.draw(gr);
                 }
-            }
-
-            Font fnt = new Font("Consolas", 12);
-            Point pt;
-            int kp = 0;
-            foreach (Knot[] knot in knots) {
-                pt = knot[0].getPos();
-                gr.DrawString((++kp).ToString(), fnt, gray, bmp.Width - 26, pt.Y-10);
             }
 
             bool m;
@@ -103,7 +106,7 @@ namespace bracelets {
             foreach (Knot[] ks in knots) {
                 foreach (Knot knot in ks) {
                     if (knot.Rect.Contains(pt)) {
-                        knot.NextKnot();
+                        knot.nextNode();
                         return true;
                     }
                 }
@@ -125,8 +128,7 @@ namespace bracelets {
         }
 
         public void subThread() {
-            if (threads.Count < 3) return;
-
+            if (threads.Count <= 3) return;
             threads.RemoveAt(threads.Count - 1);
         }
 
@@ -144,6 +146,7 @@ namespace bracelets {
             for (int r = 0; r < cn; r++) {
 
                 n = r % 2 == 0 ? nn : cnt % 2 == 0 ? nn - 1 : nn;
+                if (n < 1) return;
 
                 Knot[] knot = new Knot[n];
 
@@ -340,6 +343,49 @@ namespace bracelets {
         }
 
         public void addThread() => threads.Add(new Thread(Color.Gray, threads.Count % 2 == 0 ? Direction.LEFT : Direction.RIGHT));
+
+        public void horizontal() {
+            List<Knot[]> tempK = new List<Knot[]>();
+            Thread t;
+            Knot knot = null;
+            int n, u = threads.Count - 1;
+            
+            for (int i = u; i > -1; i--) {
+                t = threads[i].Clone();
+                t.Dir = t.Dir == Direction.LEFT ? t.Dir = Direction.RIGHT : t.Dir = Direction.LEFT;
+                threads.Add(t);
+            }
+
+            int r0 = threads.Count / 2,
+                r1 = r0 - (threads.Count % 2 == 0 ? 1 : 0);
+
+            for (int k = 0; k < knots.Count; k++) {
+                Knot[] kn = new Knot[k % 2 == 0 ? r0 : r1];
+
+                for (n = 0; n < knots[k].Length; n++) {
+                    kn[n] = knots[k][n];
+                }
+
+                u = n;
+                for (n = knots[k].Length - 1; n > -1; n--) {
+                    knot = knots[k][n].Clone();
+                    knot.mirror();
+                    kn[u++] = knot;
+                }
+
+                while(u < kn.Length) {
+                    kn[u++] = knot.Clone();
+                }
+
+                tempK.Add(kn);
+            }
+
+            knots = tempK;
+        }
+
+        public void vertical() {
+            // not implemented
+        }
 
         private void drawLosangle(Graphics gr, int x, int y, SolidBrush sb) {
 
