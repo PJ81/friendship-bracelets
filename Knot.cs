@@ -11,6 +11,12 @@ namespace bracelets {
         private readonly Pen penB = new Pen(Color.Black);
         private readonly Pen penW = new Pen(Color.White);
 
+        private Color getForeColor(Color c) {
+            float br2 = 0.3f * c.R + 0.59f * c.G + 0.11f * c.B;
+            if (br2 > 127.0) return Color.Black;
+            return Color.White;
+        }
+
         public KnotType Type { get; set; }
 
         public Rectangle Rect { get; private set; }
@@ -46,10 +52,10 @@ namespace bracelets {
         }
 
         public void nextNode() {
-            switch(Type) {
+            switch (Type) {
                 case KnotType.F: Type = KnotType.FB; break;
                 case KnotType.FB: Type = KnotType.B; break;
-                case KnotType.B: Type = KnotType.BF; break; 
+                case KnotType.B: Type = KnotType.BF; break;
                 case KnotType.BF: Type = KnotType.F; break;
             }
         }
@@ -68,7 +74,7 @@ namespace bracelets {
             PointF a = new PointF(), b = new PointF(), c = new PointF();
             double cos = Math.Cos(Math.PI / 4), sin = Math.Sin(Math.PI / 4);
 
-            Pen pen = Program.getForeColor(threadClr.Color) == Color.Black ? penB : penW;
+            Pen pen = getForeColor(threadClr.Color) == Color.Black ? penB : penW;
 
             if (Type == KnotType.F || Type == KnotType.B) {
                 a.X = (float)((Type == KnotType.F ? -r : r) * sin * sc + pos.X);

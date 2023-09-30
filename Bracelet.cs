@@ -127,23 +127,17 @@ namespace bracelets {
             threads[idx].Color = c;
         }
 
-        public void subThread() {
-            if (threads.Count <= 3) return;
+        public bool subThread() {
+            if (threads.Count <= 3) return false;
             threads.RemoveAt(threads.Count - 1);
+            return true;
         }
 
-        public void addRow(bool clear = false) {
-
-            int cn = 2;
-            if (clear) {
-                cn = knots.Count;
-                knots.Clear();
-            }
-
+        public void addRow() {
             int cnt = threads.Count;
             int nn = cnt / 2, n;
 
-            for (int r = 0; r < cn; r++) {
+            for (int r = 0; r < 2; r++) {
 
                 n = r % 2 == 0 ? nn : cnt % 2 == 0 ? nn - 1 : nn;
                 if (n < 1) return;
@@ -156,6 +150,36 @@ namespace bracelets {
 
                 knots.Add(knot);
             }
+        }
+
+        public void updateKnots(bool add) {
+            List<Knot[]> kn = new List<Knot[]>();
+
+            int n, c, o;
+            bool t = threads.Count % 2 == 0;
+            Knot kt = null;
+
+            for (int r = 0; r < knots.Count; r++) {
+                n = knots[r].Length;
+                o = n + (add ? 1 : 0);
+
+                o -= r % 2 == 1 ? (t ? 1 : 0) : (t ? 0 : 1);
+
+                Knot[] knot = new Knot[o];
+
+                for (c = 0; c < n - (add ? 0 : 1); c++) {
+                    kt = knots[r][c].Clone();
+                    knot[c] = kt;
+                }
+
+                while (c < knot.Length) {
+                    knot[c++] = kt.Clone();
+                }
+
+                kn.Add(knot);
+            }
+
+            knots = kn;
         }
 
         public void subRow() {
@@ -333,7 +357,7 @@ namespace bracelets {
             for (int z = 0; z < c; z++) {
                 m = z % 2 == 0 ? x : y;
                 Knot[] ks = new Knot[m];
-                for(int a = 0; a< m; a++) {
+                for (int a = 0; a < m; a++) {
                     ks[a] = new Knot((KnotType)Enum.Parse(typeof(KnotType), reader.ReadLine()));
                 }
 
@@ -349,7 +373,7 @@ namespace bracelets {
             Thread t;
             Knot knot = null;
             int n, u = threads.Count - 1;
-            
+
             for (int i = u; i > -1; i--) {
                 t = threads[i].Clone();
                 t.Dir = t.Dir == Direction.LEFT ? t.Dir = Direction.RIGHT : t.Dir = Direction.LEFT;
@@ -373,7 +397,7 @@ namespace bracelets {
                     kn[u++] = knot;
                 }
 
-                while(u < kn.Length) {
+                while (u < kn.Length) {
                     kn[u++] = knot.Clone();
                 }
 

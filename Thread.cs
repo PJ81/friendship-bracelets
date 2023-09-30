@@ -5,7 +5,7 @@ namespace bracelets {
 
     class Thread {
         private readonly Pen pen;
-        private  Pen clrPen;
+        private Pen clrPen;
         private Color clr;
 
         public Color Color {

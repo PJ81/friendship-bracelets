@@ -54,7 +54,9 @@
     <Compile Include="Create.Designer.cs">
       <DependentUpon>Create.cs</DependentUpon>
     </Compile>
+    <Compile Include="Direction.cs" />
     <Compile Include="Knot.cs" />
+    <Compile Include="KnotType.cs" />
     <Compile Include="Make.cs">
       <SubType>Form</SubType>
     </Compile>

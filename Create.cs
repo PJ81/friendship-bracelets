@@ -5,14 +5,6 @@ using System.Windows.Forms;
 
 namespace bracelets {
 
-    public enum Direction {
-        RIGHT, LEFT
-    };
-
-    public enum KnotType {
-        F, FB, B, BF
-    };
-
     public partial class Create : Form {
 
         private Bracelet bracelet;
@@ -33,12 +25,12 @@ namespace bracelets {
 
         private void picBox_MouseDown(object sender, MouseEventArgs e) {
             Point pt = new Point(e.X, e.Y);
-            
+
             if (bracelet.searchKnot(pt)) {
                 create();
                 return;
             }
-            
+
             int r = bracelet.searchColorHandles(pt);
             if (r > -1) {
                 changeColor(r);
@@ -47,7 +39,7 @@ namespace bracelets {
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
-            if(saveDlg.ShowDialog() == DialogResult.OK) {
+            if (saveDlg.ShowDialog() == DialogResult.OK) {
                 FileStream strm = new FileStream(saveDlg.FileName, FileMode.Create, FileAccess.Write);
                 StreamWriter writer = new StreamWriter(strm);
                 writer.BaseStream.Seek(0, SeekOrigin.End);
@@ -83,13 +75,13 @@ namespace bracelets {
 
         private void btnAddThread_Click(object sender, EventArgs e) {
             bracelet.addThread();
-            bracelet.addRow(true);
+            bracelet.updateKnots(true);
             create();
         }
 
         private void btnSubThread_Click(object sender, EventArgs e) {
-            bracelet.subThread();
-            bracelet.addRow(true);
+            if (bracelet.subThread())
+                bracelet.updateKnots(false);
             create();
         }
 

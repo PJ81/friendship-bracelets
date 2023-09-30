@@ -10,7 +10,7 @@ namespace bracelets {
         public SolidBrush threadClr { get; private set; }
 
         public Rectangle Rect { get; private set; }
-        
+
         public int Index { get; set; }
 
         public ColorHandle(Point p, Color c, int idx) {
