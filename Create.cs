@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
 
@@ -39,6 +40,8 @@ namespace bracelets {
         }
 
         private void btnSave_Click(object sender, EventArgs e) {
+            saveDlg.Filter = "Bracelet | *.bra";
+
             if (saveDlg.ShowDialog() == DialogResult.OK) {
                 FileStream strm = new FileStream(saveDlg.FileName, FileMode.Create, FileAccess.Write);
                 StreamWriter writer = new StreamWriter(strm);
@@ -108,6 +111,46 @@ namespace bracelets {
         private void btnVertical_Click(object sender, EventArgs e) {
             bracelet.vertical();
             create();
+        }
+
+        private void btnExport_MouseClick(object sender, MouseEventArgs e) {
+            if (e.Button == MouseButtons.Left) {
+                ctxMenu.Show(btnExport, e.Location);
+            }
+        }
+
+        private void ctxImage_Click(object sender, EventArgs e) {
+            int w = 10 + Math.Max(picBox.Image.Width, picBox2.Image.Width),
+                h = picBox.Image.Height + picBox2.Image.Height + 40;
+            Bitmap nb = new Bitmap(w, h);
+            Graphics g = Graphics.FromImage(nb);
+
+            g.Clear(Color.White);
+            g.DrawImage(picBox2.Image, 5, 10);
+            g.DrawImage(picBox.Image, 5, 10 + picBox2.Image.Height + 20);
+
+            saveDlg.Filter = "Image | *.png";
+            if (saveDlg.ShowDialog() == DialogResult.OK) {
+                nb.Save(saveDlg.FileName, ImageFormat.Png);
+            }
+        }
+
+        private void ctxBraceletBook_Click(object sender, EventArgs e) {
+            (string, string, string) txt = bracelet.getExport();
+
+            saveDlg.Filter = "BraceletBook | *.bbk";
+            if (saveDlg.ShowDialog() == DialogResult.OK) {
+                FileStream strm = new FileStream(saveDlg.FileName, FileMode.Create, FileAccess.Write);
+                StreamWriter writer = new StreamWriter(strm);
+                writer.BaseStream.Seek(0, SeekOrigin.End);
+
+                writer.WriteLine(txt.Item1);
+                writer.WriteLine(txt.Item2);
+                writer.WriteLine(txt.Item3);
+
+                writer.Flush();
+                writer.Close();
+            }
         }
     }
 }

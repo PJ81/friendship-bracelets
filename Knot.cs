@@ -17,41 +17,41 @@ namespace bracelets {
             return Color.White;
         }
 
-        public KnotType Type { get; set; }
+        internal KnotType Type { get; set; }
 
-        public Rectangle Rect { get; private set; }
+        internal Rectangle Rect { get; private set; }
 
-        public SolidBrush threadClr { get; private set; }
+        internal SolidBrush threadClr { get; private set; }
 
-        public void setColor(Color c) {
+        internal void setColor(Color c) {
             threadClr = new SolidBrush(c);
         }
 
-        public Point getPos() {
+        internal Point getPos() {
             return pos;
         }
 
-        public void setPos(int x, int y) {
+        internal void setPos(int x, int y) {
             pos.X = x;
             pos.Y = y;
 
             Rect = new Rectangle(pos.X - 14, pos.Y - 14, 28, 28);
         }
 
-        public void draw(Graphics gr) {
+        internal void draw(Graphics gr) {
             gr.FillEllipse(black, Rect);
             gr.FillEllipse(threadClr, pos.X - 12, pos.Y - 12, 24, 24);
             drawArrow(gr);
         }
 
-        public Knot(KnotType t) {
+        internal Knot(KnotType t) {
             Type = t;
             pos = new Point();
             black = new SolidBrush(Color.Black);
             threadClr = new SolidBrush(Color.Red);
         }
 
-        public void nextNode() {
+        internal void nextNode() {
             switch (Type) {
                 case KnotType.F: Type = KnotType.FB; break;
                 case KnotType.FB: Type = KnotType.B; break;
@@ -60,7 +60,7 @@ namespace bracelets {
             }
         }
 
-        public void mirror() {
+        internal void mirror() {
             switch (Type) {
                 case KnotType.F: Type = KnotType.B; break;
                 case KnotType.FB: Type = KnotType.BF; break;
@@ -99,11 +99,11 @@ namespace bracelets {
             }
         }
 
-        public void save(StreamWriter writer) {
+        internal void save(StreamWriter writer) {
             writer.WriteLine(Type);
         }
 
-        public Knot Clone() {
+        internal Knot Clone() {
             return new Knot(Type);
         }
     }

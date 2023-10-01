@@ -13,8 +13,8 @@ namespace bracelets {
         private Pen grayPen;
         private SolidBrush gray;
 
-        public int Width { get; private set; }
-        public int Height { get; private set; }
+        internal int Width { get; private set; }
+        internal int Height { get; private set; }
 
         private List<Thread> threads = new List<Thread>();
         private List<Point> points = new List<Point>();
@@ -23,7 +23,7 @@ namespace bracelets {
         private Point[] poly = new Point[4];
         private readonly Point[] tmp = new Point[4];
 
-        public Bracelet() {
+        internal Bracelet() {
             poly[0] = new Point(0, -POLY);
             poly[1] = new Point(POLY, 0);
             poly[2] = new Point(0, POLY);
@@ -39,7 +39,7 @@ namespace bracelets {
             addRow();
         }
 
-        public (Bitmap, Bitmap) create() {
+        internal (Bitmap, Bitmap) create() {
 
             createKnotsColors();
             createPoints();
@@ -102,7 +102,7 @@ namespace bracelets {
             return (bmp, bmpb);
         }
 
-        public bool searchKnot(Point pt) {
+        internal bool searchKnot(Point pt) {
             foreach (Knot[] ks in knots) {
                 foreach (Knot knot in ks) {
                     if (knot.Rect.Contains(pt)) {
@@ -114,7 +114,7 @@ namespace bracelets {
             return false;
         }
 
-        public int searchColorHandles(Point pt) {
+        internal int searchColorHandles(Point pt) {
             foreach (ColorHandle ch in clrHandles) {
                 if (ch.Rect.Contains(pt)) {
                     return ch.Index;
@@ -123,17 +123,41 @@ namespace bracelets {
             return -1;
         }
 
-        public void setThreadColor(int idx, Color c) {
+        internal (string, string, string) getExport() {
+            string clr = "", thr = "";
+            Color c;
+            List<Color> lst = new List<Color>();
+
+            foreach (Thread t in threads) {
+                c = t.Color;
+                clr += c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2") + "\n";
+
+                if (lst.IndexOf(c) < 0) lst.Add(c);
+                thr += (char)(65 + lst.IndexOf(c));
+            }
+
+            string knts = "";
+            foreach (Knot[] ks in knots) {
+                foreach (Knot k in ks) {
+                    knts += k.Type + ", ";
+                }
+                knts += "\n";
+            }
+
+            return (thr.ToLower(), clr, knts.Substring(0, knts.Length - 3).ToLower());
+        }
+
+        internal void setThreadColor(int idx, Color c) {
             threads[idx].Color = c;
         }
 
-        public bool subThread() {
+        internal bool subThread() {
             if (threads.Count <= 3) return false;
             threads.RemoveAt(threads.Count - 1);
             return true;
         }
 
-        public void addRow() {
+        internal void addRow() {
             int cnt = threads.Count;
             int nn = cnt / 2, n;
 
@@ -152,7 +176,7 @@ namespace bracelets {
             }
         }
 
-        public void updateKnots(bool add) {
+        internal void updateKnots(bool add) {
             List<Knot[]> kn = new List<Knot[]>();
 
             int n, c, o;
@@ -182,13 +206,13 @@ namespace bracelets {
             knots = kn;
         }
 
-        public void subRow() {
+        internal void subRow() {
             if (knots.Count < 3) return;
             knots.RemoveAt(knots.Count - 1);
             knots.RemoveAt(knots.Count - 1);
         }
 
-        public void createPoints() {
+        internal void createPoints() {
             points.Clear();
             clrHandles.Clear();
 
@@ -289,7 +313,7 @@ namespace bracelets {
             Width = max.X + 10;
         }
 
-        public void createKnotsColors() {
+        internal void createKnotsColors() {
 
             Color[] lst = new Color[threads.Count];
             int i = 0;
@@ -324,7 +348,7 @@ namespace bracelets {
             }
         }
 
-        public void save(StreamWriter writer) {
+        internal void save(StreamWriter writer) {
 
             writer.WriteLine(threads.Count);
             foreach (Thread t in threads)
@@ -339,7 +363,7 @@ namespace bracelets {
                     k.save(writer);
         }
 
-        public void load(StreamReader reader) {
+        internal void load(StreamReader reader) {
             int c, clr, x, y, m;
 
             threads.Clear();
@@ -366,9 +390,9 @@ namespace bracelets {
 
         }
 
-        public void addThread() => threads.Add(new Thread(Color.Gray, threads.Count % 2 == 0 ? Direction.LEFT : Direction.RIGHT));
+        internal void addThread() => threads.Add(new Thread(Color.Gray, threads.Count % 2 == 0 ? Direction.LEFT : Direction.RIGHT));
 
-        public void horizontal() {
+        internal void horizontal() {
             List<Knot[]> tempK = new List<Knot[]>();
             Thread t;
             Knot knot = null;
@@ -407,7 +431,7 @@ namespace bracelets {
             knots = tempK;
         }
 
-        public void vertical() {
+        internal void vertical() {
             // not implemented
         }
 

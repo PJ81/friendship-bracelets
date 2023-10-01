@@ -8,28 +8,28 @@ namespace bracelets {
         private Pen clrPen;
         private Color clr;
 
-        public Color Color {
+        internal Color Color {
             get { return clr; }
             set { clr = value; clrPen = new Pen(value, 7); }
         }
 
-        public Direction Dir { get; set; }
+        internal Direction Dir { get; set; }
 
-        public Thread(Color c, Direction d) {
+        internal Thread(Color c, Direction d) {
             Color = c; Dir = d;
             pen = new Pen(Color.Black, 11);
         }
 
-        public void Draw(Graphics gr, Point[] pts) {
+        internal void Draw(Graphics gr, Point[] pts) {
             gr.DrawLines(pen, pts);
             gr.DrawLines(clrPen, pts);
         }
 
-        public Thread Clone() {
+        internal Thread Clone() {
             return new Thread(Color, Dir);
         }
 
-        public void save(StreamWriter writer) {
+        internal void save(StreamWriter writer) {
             writer.WriteLine(clr.ToArgb());
             writer.WriteLine(Dir);
         }
