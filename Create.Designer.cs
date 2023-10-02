@@ -38,7 +38,6 @@ namespace bracelets {
             this.btnAddRow = new System.Windows.Forms.Button();
             this.btnSubRow = new System.Windows.Forms.Button();
             this.btnMake = new System.Windows.Forms.Button();
-            this.btnVertical = new System.Windows.Forms.Button();
             this.btnHorizontal = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -48,6 +47,9 @@ namespace bracelets {
             this.ctxMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxImage = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxBraceletBook = new System.Windows.Forms.ToolStripMenuItem();
+            this.clrOne = new System.Windows.Forms.Label();
+            this.clrTwo = new System.Windows.Forms.Label();
+            this.btnChange = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picBox)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -170,22 +172,6 @@ namespace bracelets {
             this.btnMake.UseVisualStyleBackColor = true;
             this.btnMake.Click += new System.EventHandler(this.btnMake_Click);
             // 
-            // btnVertical
-            // 
-            this.btnVertical.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnVertical.Enabled = false;
-            this.btnVertical.Image = ((System.Drawing.Image)(resources.GetObject("btnVertical.Image")));
-            this.btnVertical.Location = new System.Drawing.Point(893, 5);
-            this.btnVertical.Name = "btnVertical";
-            this.btnVertical.Size = new System.Drawing.Size(69, 26);
-            this.btnVertical.TabIndex = 11;
-            this.btnVertical.Text = "Vert";
-            this.btnVertical.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.btnVertical, "Save to file");
-            this.btnVertical.UseVisualStyleBackColor = true;
-            this.btnVertical.Visible = false;
-            this.btnVertical.Click += new System.EventHandler(this.btnVertical_Click);
-            // 
             // btnHorizontal
             // 
             this.btnHorizontal.Image = ((System.Drawing.Image)(resources.GetObject("btnHorizontal.Image")));
@@ -225,8 +211,10 @@ namespace bracelets {
             // panel2
             // 
             this.panel2.AutoScroll = true;
+            this.panel2.Controls.Add(this.btnChange);
+            this.panel2.Controls.Add(this.clrTwo);
+            this.panel2.Controls.Add(this.clrOne);
             this.panel2.Controls.Add(this.btnExport);
-            this.panel2.Controls.Add(this.btnVertical);
             this.panel2.Controls.Add(this.btnHorizontal);
             this.panel2.Controls.Add(this.btnMake);
             this.panel2.Controls.Add(this.btnSubRow);
@@ -283,6 +271,41 @@ namespace bracelets {
             this.ctxBraceletBook.Text = "BraceletBook";
             this.ctxBraceletBook.Click += new System.EventHandler(this.ctxBraceletBook_Click);
             // 
+            // clrOne
+            // 
+            this.clrOne.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.clrOne.BackColor = System.Drawing.Color.Black;
+            this.clrOne.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.clrOne.Location = new System.Drawing.Point(870, 5);
+            this.clrOne.Name = "clrOne";
+            this.clrOne.Size = new System.Drawing.Size(28, 26);
+            this.clrOne.TabIndex = 13;
+            this.clrOne.Click += new System.EventHandler(this.clrOne_Click);
+            // 
+            // clrTwo
+            // 
+            this.clrTwo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.clrTwo.BackColor = System.Drawing.Color.DimGray;
+            this.clrTwo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.clrTwo.Location = new System.Drawing.Point(933, 5);
+            this.clrTwo.Name = "clrTwo";
+            this.clrTwo.Size = new System.Drawing.Size(28, 26);
+            this.clrTwo.TabIndex = 14;
+            this.clrTwo.Click += new System.EventHandler(this.clrOne_Click);
+            // 
+            // btnChange
+            // 
+            this.btnChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnChange.Image = ((System.Drawing.Image)(resources.GetObject("btnChange.Image")));
+            this.btnChange.Location = new System.Drawing.Point(901, 5);
+            this.btnChange.Name = "btnChange";
+            this.btnChange.Size = new System.Drawing.Size(28, 26);
+            this.btnChange.TabIndex = 15;
+            this.btnChange.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.btnChange, "Save to file");
+            this.btnChange.UseVisualStyleBackColor = true;
+            this.btnChange.Click += new System.EventHandler(this.btnChange_Click);
+            // 
             // Create
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -324,12 +347,14 @@ namespace bracelets {
         private System.Windows.Forms.PictureBox picBox2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btnMake;
-        private System.Windows.Forms.Button btnVertical;
         private System.Windows.Forms.Button btnHorizontal;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.ContextMenuStrip ctxMenu;
         private System.Windows.Forms.ToolStripMenuItem ctxImage;
         private System.Windows.Forms.ToolStripMenuItem ctxBraceletBook;
+        private System.Windows.Forms.Button btnChange;
+        private System.Windows.Forms.Label clrTwo;
+        private System.Windows.Forms.Label clrOne;
     }
 }
 

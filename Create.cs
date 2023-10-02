@@ -41,6 +41,7 @@ namespace bracelets {
 
         private void btnSave_Click(object sender, EventArgs e) {
             saveDlg.Filter = "Bracelet | *.bra";
+            saveDlg.FileName = "";
 
             if (saveDlg.ShowDialog() == DialogResult.OK) {
                 FileStream strm = new FileStream(saveDlg.FileName, FileMode.Create, FileAccess.Write);
@@ -130,6 +131,8 @@ namespace bracelets {
             g.DrawImage(picBox.Image, 5, 10 + picBox2.Image.Height + 20);
 
             saveDlg.Filter = "Image | *.png";
+            saveDlg.FileName = "";
+
             if (saveDlg.ShowDialog() == DialogResult.OK) {
                 nb.Save(saveDlg.FileName, ImageFormat.Png);
             }
@@ -139,6 +142,8 @@ namespace bracelets {
             (string, string, string) txt = bracelet.getExport();
 
             saveDlg.Filter = "BraceletBook | *.bbk";
+            saveDlg.FileName = "";
+
             if (saveDlg.ShowDialog() == DialogResult.OK) {
                 FileStream strm = new FileStream(saveDlg.FileName, FileMode.Create, FileAccess.Write);
                 StreamWriter writer = new StreamWriter(strm);
@@ -150,6 +155,17 @@ namespace bracelets {
 
                 writer.Flush();
                 writer.Close();
+            }
+        }
+
+        private void btnChange_Click(object sender, EventArgs e) {
+            bracelet.changeColors(clrOne.BackColor, clrTwo.BackColor);
+            create();
+        }
+
+        private void clrOne_Click(object sender, EventArgs e) {
+            if(clrDlg.ShowDialog() == DialogResult.OK) {
+                ((Label)sender).BackColor = clrDlg.Color;
             }
         }
     }

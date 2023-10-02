@@ -61,7 +61,7 @@ namespace bracelets {
             Point[] pts = new Point[p];
 
             foreach (Thread t in threads) {
-                points.CopyTo(s, pts, 0, p);
+                points.CopyTo(s, pts, 0, p);    
                 t.Draw(gr, pts);
                 s += p;
             }
@@ -98,6 +98,8 @@ namespace bracelets {
                     y = h - POLY2 - (m ? POLY : 0);
                 }
             }
+
+            bmp.Save("u.bmp");
 
             return (bmp, bmpb);
         }
@@ -173,6 +175,12 @@ namespace bracelets {
                 }
 
                 knots.Add(knot);
+            }
+        }
+
+        internal void changeColors(Color color1, Color color2) {
+            foreach(Thread t in threads) {
+                if (t.Color == color1) t.Color = color2;
             }
         }
 
