@@ -178,10 +178,12 @@ namespace bracelets {
             }
         }
 
-        internal void changeColors(Color color1, Color color2) {
-            foreach(Thread t in threads) {
-                if (t.Color == color1) t.Color = color2;
+        internal void changeColors(Color c1, Color c2) {
+           foreach(Thread t in threads) {
+                if (t.Color.ToArgb() == c1.ToArgb()) 
+                    t.Color = c2;
             }
+
         }
 
         internal void updateKnots(bool add) {
